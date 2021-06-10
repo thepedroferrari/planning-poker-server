@@ -1,0 +1,28 @@
+{
+  "name": "planning-poker-server",
+  "version": "1.0.0",
+  "description": "A node-fastify-mongo-esm-typescript server",
+  "main": "index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thepedroferrari/planning-poker-server.git"
+  },
+  "keywords": [
+    "fastify",
+    "node",
+    "planning",
+    "poker",
+    "mongodb",
+    "jwt",
+    "auth"
+  ],
+  "author": "Pedro Ferrari @thepedroferrari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thepedroferrari/planning-poker-server/issues"
+  },
+  "homepage": "https://github.com/thepedroferrari/planning-poker-server#readme"
+}
