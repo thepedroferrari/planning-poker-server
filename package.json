@@ -2,9 +2,13 @@
   "name": "planning-poker-server",
   "version": "1.0.0",
   "description": "A node-fastify-mongo-esm-typescript server",
-  "main": "index.ts",
+  "main": "src/index.ts",
+  "type": "module",
   "scripts": {
-    "test": "test"
+    "build": "tsc",
+    "start": "nodemon build/index.js",
+    "test": "test",
+    "watch": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -24,5 +28,14 @@
   "bugs": {
     "url": "https://github.com/thepedroferrari/planning-poker-server/issues"
   },
-  "homepage": "https://github.com/thepedroferrari/planning-poker-server#readme"
+  "homepage": "https://github.com/thepedroferrari/planning-poker-server#readme",
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "fastify": "^3.17.0",
+    "fastify-static": "^4.2.2"
+  }
 }
