@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "clean": "rm -rf ./build",
     "start": "nodemon build/index.js",
     "test": "test",
     "watch": "tsc -w"
@@ -30,13 +31,16 @@
   },
   "homepage": "https://github.com/thepedroferrari/planning-poker-server#readme",
   "devDependencies": {
+    "@types/mongodb": "^3.6.17",
     "@types/node": "^15.12.2",
     "nodemon": "^2.0.7",
     "typescript": "^4.3.2"
   },
   "dependencies": {
+    "argon2": "^0.28.2",
     "dotenv": "^10.0.0",
     "fastify": "^3.17.0",
-    "fastify-static": "^4.2.2"
+    "fastify-cors": "^6.0.1",
+    "mongodb": "^3.6.9"
   }
 }
