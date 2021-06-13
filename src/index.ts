@@ -1,9 +1,9 @@
-import "./env.js"
+import "./env"
 import { fastify } from "fastify"
 import cors from "fastify-cors"
-import { registerUser } from "./accounts/registerUser.js"
-import { connectDb } from "./db.js"
-import { RegisterUser } from "./types/types.js"
+import { registerUser } from "./accounts/registerUser"
+import { connectDb } from "./db"
+import { RegisterUser } from "./types/types"
 
 const app = fastify()
 

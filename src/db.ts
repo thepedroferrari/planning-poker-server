@@ -1,5 +1,5 @@
 import mongo from "mongodb"
-import "./env.js"
+import "./env"
 
 const { MongoClient } = mongo
 

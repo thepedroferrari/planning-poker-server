@@ -1,31 +1,31 @@
 import { RegisterUser } from "../types/types"
-import { validateEmail } from "./validateEmail.js"
+import { returnErrors } from "./returnErrors"
+import { validateEmail } from "./validateEmail"
+import { validatePassword } from "./validatePassword"
+import { validateUsername } from "./validateUsername"
 
-export const returnErrors = (field: string, message: string) => [
-  { field, message },
-]
-
+/**
+ * @description Checks for errors in the for and return a set of fields and
+ * messages that may contain errors. The error list can be used in the frontend
+ * to help users send the form once and know all errors that were made.
+ * @param options: RegisterUser {username, email, password}
+ * @returns [{field, message}][]
+ */
 export const validateRegister = (options: RegisterUser) => {
+  const errors = []
   if (!validateEmail(options.email)) {
-    return returnErrors("email", "Invalid Email")
+    errors.push(...returnErrors("email", "Invalid Email"))
   }
-  if (options.username.length < 3)
-    return returnErrors(
-      "username",
-      "Your username must be at least 3 characters long",
-    )
 
-  if (options.username.includes("@"))
-    return returnErrors(
-      "username",
-      'The username must not contain the character "@"',
-    )
-
-  if (options.password.length < 6) {
-    return returnErrors(
-      "password",
-      "Your password must be at least 6 characters long",
-    )
+  const usernameErrors = validateUsername(options.username)
+  if (usernameErrors !== null) {
+    errors.push(...usernameErrors)
   }
-  return null
+
+  const passwordErrors = validatePassword(options.password)
+  if (passwordErrors !== null) {
+    errors.push(...passwordErrors)
+  }
+
+  return errors
 }

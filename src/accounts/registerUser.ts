@@ -1,6 +1,6 @@
 import argon2 from "argon2"
 import { RegisterUser, User } from "../types/types"
-import { validateRegister } from "../utils/validateRegister.js"
+import { validateRegister } from "../utils/validateRegister"
 
 export const registerUser = async ({
   username,
@@ -27,7 +27,7 @@ export const registerUser = async ({
       password: hashedPassword,
       registrationDate: Date.now(),
     }
-    const { user } = await import("../user/user.js")
+    const { user } = await import("../user/user")
     const result = await user.insertOne(newUser)
 
     // Return user from Database

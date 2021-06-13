@@ -21,7 +21,13 @@
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "outDir": "./build",
-    "sourceMap": true
+    "sourceMap": true,
+    "plugins": [
+      {
+        "transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
+        "after": true
+      }
+    ]
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]

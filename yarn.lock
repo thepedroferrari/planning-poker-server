@@ -685,6 +685,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@zoltu/typescript-transformer-append-js-extension@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@zoltu/typescript-transformer-append-js-extension/-/typescript-transformer-append-js-extension-1.0.1.tgz#c7edaccaef0fc87c0c85d6ce4f074e66a42d9080"
+  integrity sha512-7Lp30MtJO7YHZW19yJWhkuJrf+Y78COHopeZli7fiWrbIRvodsSXZIa7cFX/c4PFwFJt55N/7Pp/t6VH0fwBVQ==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -3101,7 +3106,7 @@ resolve-from@^5.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
-resolve@^1.20.0:
+resolve@>=1.9.0, resolve@^1.20.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
@@ -3538,6 +3543,13 @@ ts-jest@^27.0.3:
     mkdirp "1.x"
     semver "7.x"
     yargs-parser "20.x"
+
+ttypescript@^1.5.12:
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/ttypescript/-/ttypescript-1.5.12.tgz#27a8356d7d4e719d0075a8feb4df14b52384f044"
+  integrity sha512-1ojRyJvpnmgN9kIHmUnQPlEV1gq+VVsxVYjk/NfvMlHSmYxjK5hEvOOU2MQASrbekTUiUM7pR/nXeCc8bzvMOQ==
+  dependencies:
+    resolve ">=1.9.0"
 
 type-check@~0.3.2:
   version "0.3.2"
