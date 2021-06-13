@@ -3,7 +3,7 @@ import { fastify } from "fastify"
 import cors from "fastify-cors"
 import { registerUser } from "./accounts/registerUser.js"
 import { connectDb } from "./db.js"
-import { UserAuth } from "./types/types.js"
+import { RegisterUser } from "./types/types.js"
 
 const app = fastify()
 
@@ -19,12 +19,13 @@ async function startServer() {
       return { hello: "world" }
     })
     // Register User
-    app.post<{ Body: UserAuth }>("/api/register", {}, async (request) => {
+    app.post<{ Body: RegisterUser }>("/api/register", {}, async (request) => {
       try {
-        const userId = await registerUser(
-          request.body.email,
-          request.body.password,
-        )
+        const userId = await registerUser({
+          username: request.body.username,
+          email: request.body.email,
+          password: request.body.password,
+        })
         console.log("UserID: ", userId)
         return userId
       } catch (e) {

@@ -1,9 +1,13 @@
 import argon2 from "argon2"
-import { User } from "../types/types"
+import { RegisterUser, User } from "../types/types"
 import { validateRegister } from "../utils/validateRegister.js"
 
-export const registerUser = async (email: string, password: string) => {
-  const hasErrors = validateRegister({ email, password })
+export const registerUser = async ({
+  username,
+  email,
+  password,
+}: RegisterUser) => {
+  const hasErrors = validateRegister({ username, email, password })
   if (hasErrors) return hasErrors
 
   try {
@@ -15,11 +19,13 @@ export const registerUser = async (email: string, password: string) => {
     })
     // store in DB
     const newUser: User = {
+      username,
       email: {
         address: email,
         verified: false,
       },
       password: hashedPassword,
+      registrationDate: Date.now(),
     }
     const { user } = await import("../user/user.js")
     const result = await user.insertOne(newUser)
