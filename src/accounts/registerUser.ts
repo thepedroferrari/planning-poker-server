@@ -24,7 +24,7 @@ export const registerUser = async ({
       password: hashedPassword,
       registrationDate: Date.now(),
     }
-    const { user } = await import("../user/user.js")
+    const { user } = await import("../models/user.js")
     const result = await user.insertOne(newUser)
 
     // Return user from Database

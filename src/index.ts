@@ -6,6 +6,8 @@ import { registerUser } from "./accounts/registerUser"
 import { connectDb } from "./db"
 import { RegisterUser, UserAuth } from "./types/types"
 import { authUser } from "./accounts/auth"
+import { validateRegister } from "./utils/validateRegister"
+import { logUserIn } from "./accounts/logUserIn"
 
 const app = fastify()
 
@@ -40,17 +42,36 @@ async function startServer() {
 
     // Auth User
     app.post<{ Body: UserAuth }>("/api/auth", {}, async (request, reply) => {
+      // Check for errors before doing unnecessary database requests
+      const email = request.body.email
+      const password = request.body.password
+      const hasErrors = validateRegister({
+        username: "default",
+        email,
+        password,
+      })
+      if (hasErrors.length > 0) return hasErrors
+
       try {
-        const userId = await authUser({
-          email: request.body.email,
-          password: request.body.password,
+        const { isAuth, userId } = await authUser({
+          email,
+          password,
         })
-        reply.setCookie("userId", "id", {
-          path: "/",
-          domain: "localhost",
-          httpOnly: true,
-        })
-        return userId
+
+        if (isAuth && userId) {
+          await logUserIn({ userId, request, reply })
+        }
+
+        reply
+          .setCookie("userId", "id", {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+          })
+          .send({
+            data: isAuth,
+          })
+        return isAuth
       } catch (e) {
         console.error(e)
       }
