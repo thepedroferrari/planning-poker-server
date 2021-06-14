@@ -14,7 +14,7 @@ import { validateUsername } from "./validateUsername"
 export const validateRegister = (options: RegisterUser) => {
   const errors = []
   if (!validateEmail(options.email)) {
-    errors.push(...returnErrors("email", "Invalid Email"))
+    errors.push(returnErrors("email", "Invalid Email"))
   }
 
   const usernameErrors = validateUsername(options.username)
