@@ -1,6 +1,7 @@
 import "./env"
 import { fastify } from "fastify"
 import cors from "fastify-cors"
+import cookie from "fastify-cookie"
 import { registerUser } from "./accounts/registerUser"
 import { connectDb } from "./db"
 import { RegisterUser, UserAuth } from "./types/types"
@@ -13,6 +14,9 @@ async function startServer() {
     app.register(cors, {
       origin: "*",
       methods: ["POST"],
+    })
+    app.register(cookie, {
+      secret: process.env.COOKIE_SECRET,
     })
     // Declare a route
     app.get("/", async (_, reply) => {
@@ -35,11 +39,16 @@ async function startServer() {
     })
 
     // Auth User
-    app.post<{ Body: UserAuth }>("/api/auth", {}, async (request) => {
+    app.post<{ Body: UserAuth }>("/api/auth", {}, async (request, reply) => {
       try {
         const userId = await authUser({
           email: request.body.email,
           password: request.body.password,
+        })
+        reply.setCookie("userId", "id", {
+          path: "/",
+          domain: "localhost",
+          httpOnly: true,
         })
         return userId
       } catch (e) {
