@@ -1,6 +1,7 @@
 import argon2 from "argon2"
 import { RegisterUser, User } from "../types/types"
 import { validateRegister } from "../utils/validateRegister"
+import { argon2HashOptions } from "./argon2HashOptions"
 
 export const registerUser = async ({
   username,
@@ -12,11 +13,7 @@ export const registerUser = async ({
 
   try {
     // Hash password
-    const hashedPassword = await argon2.hash(password, {
-      memoryCost: 16384,
-      parallelism: 2,
-      hashLength: 64,
-    })
+    const hashedPassword = await argon2.hash(password, argon2HashOptions)
     // store in DB
     const newUser: User = {
       username,
@@ -27,7 +24,7 @@ export const registerUser = async ({
       password: hashedPassword,
       registrationDate: Date.now(),
     }
-    const { user } = await import("../user/user")
+    const { user } = await import("../user/user.js")
     const result = await user.insertOne(newUser)
 
     // Return user from Database
