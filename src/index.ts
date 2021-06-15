@@ -10,6 +10,7 @@ import { registerUser } from "./accounts/registerUser"
 import { connectDb } from "./db"
 import { RegisterUser, UserAuth } from "./types/types"
 import { validateRegister } from "./utils/validateRegister"
+import { STATUS } from "./constants"
 
 const app = fastify()
 
@@ -28,19 +29,55 @@ async function startServer() {
       return { hello: "world" }
     })
     // Register User
-    app.post<{ Body: RegisterUser }>("/api/register", {}, async (request) => {
-      try {
-        const userId = await registerUser({
-          username: request.body.username,
-          email: request.body.email.toLowerCase(),
-          password: request.body.password,
-        })
-        return userId
-      } catch (e) {
-        console.error(e)
-      }
-      return false
-    })
+    app.post<{ Body: RegisterUser }>(
+      "/api/register",
+      {},
+      async (request, reply) => {
+        try {
+          const username = request.body?.username
+          const email = request.body?.email.toLowerCase()
+          const password = request.body?.password
+
+          const errors = validateRegister({ username, email, password })
+
+          if (errors.length > 0) {
+            reply.send({
+              data: {
+                status: STATUS.FAILURE,
+                errors,
+              },
+            })
+
+            return
+          }
+
+          const userId = await registerUser({
+            username,
+            email,
+            password,
+          })
+
+          if (userId) {
+            await logUserIn({ reply, request, userId })
+            reply.send({
+              data: {
+                status: STATUS.SUCCESS,
+                userId,
+              },
+            })
+          }
+        } catch (e) {
+          console.error(e)
+
+          reply.send({
+            data: {
+              status: STATUS.FAILURE,
+            },
+          })
+        }
+        return false
+      },
+    )
 
     // Auth User
     app.post<{ Body: UserAuth }>("/api/auth", {}, async (request, reply) => {
