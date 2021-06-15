@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto"
-import { ConnectionInfo } from "../types/types.js"
+import { ConnectionInfo, Session } from "../types/types.js"
 
 type CreateSession = {
   userId: string
@@ -20,7 +20,7 @@ export const createSession = async ({ userId, connection }: CreateSession) => {
     const { session } = await import("../models/session.js")
     const newDate = new Date()
 
-    await session.insertOne({
+    const newSession: Session = {
       sessionToken,
       userId,
       valid: true,
@@ -28,7 +28,9 @@ export const createSession = async ({ userId, connection }: CreateSession) => {
       userAgent,
       updatedAt: newDate,
       createdAt: newDate,
-    })
+    }
+
+    await session.insertOne(newSession)
 
     return sessionToken
   } catch (e) {

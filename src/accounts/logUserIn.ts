@@ -1,5 +1,7 @@
+import { FastifyReply } from "fastify"
 import { LogUserIn } from "../types/types"
 import { createSession } from "./createSession"
+import { setAuthCookies } from "./setAuthCookies"
 import { createTokens } from "./tokens"
 
 export const logUserIn = async ({ userId, request, reply }: LogUserIn) => {
@@ -16,20 +18,5 @@ export const logUserIn = async ({ userId, request, reply }: LogUserIn) => {
   const { accessToken, refreshToken } = await createTokens(sessionToken, userId)
 
   // Set Cookie
-  const now = new Date()
-  const refreshExpires = new Date(now.setDate(now.getDate() + 30))
-
-  // Send cookies back to Frontend
-  reply
-    .setCookie("refreshToken", refreshToken, {
-      path: "/",
-      domain: "localhost",
-      httpOnly: true,
-      expires: refreshExpires,
-    })
-    .setCookie("accessToken", accessToken, {
-      path: "/",
-      domain: "localhost",
-      httpOnly: true,
-    })
+  setAuthCookies({ reply, accessToken, refreshToken })
 }

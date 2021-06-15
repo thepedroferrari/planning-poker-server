@@ -30,3 +30,13 @@ export type ConnectionInfo = {
   ip: string
   userAgent?: string
 }
+
+export type Session = {
+  sessionToken: string
+  userId: string
+  valid: boolean
+  ip: string
+  userAgent: string | undefined
+  updatedAt: Date
+  createdAt: Date
+}

@@ -79,7 +79,7 @@ async function startServer() {
     app.get("/test", {}, async (request, reply) => {
       try {
         // Verify User login
-        const user = await getUserFromCookies(request)
+        const user = await getUserFromCookies(request, reply)
         // Return user email if found, otherwise return false
 
         reply.type("application/json").code(200)
