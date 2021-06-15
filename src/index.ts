@@ -1,14 +1,15 @@
 import "./env"
 import { fastify } from "fastify"
-import cors from "fastify-cors"
 import cookie from "fastify-cookie"
+import cors from "fastify-cors"
+import { authUser } from "./accounts/auth"
+import { getUserFromCookies } from "./accounts/getUserFromCookies"
+import { logUserIn } from "./accounts/logUserIn"
+import { logUserOut } from "./accounts/logUserOut"
 import { registerUser } from "./accounts/registerUser"
 import { connectDb } from "./db"
 import { RegisterUser, UserAuth } from "./types/types"
-import { authUser } from "./accounts/auth"
 import { validateRegister } from "./utils/validateRegister"
-import { logUserIn } from "./accounts/logUserIn"
-import { getUserFromCookies } from "./accounts/getUserFromCookies"
 
 const app = fastify()
 
@@ -31,7 +32,7 @@ async function startServer() {
       try {
         const userId = await registerUser({
           username: request.body.username,
-          email: request.body.email,
+          email: request.body.email.toLowerCase(),
           password: request.body.password,
         })
         return userId
@@ -44,7 +45,7 @@ async function startServer() {
     // Auth User
     app.post<{ Body: UserAuth }>("/api/auth", {}, async (request, reply) => {
       // Check for errors before doing unnecessary database requests
-      const email = request.body.email
+      const email = request.body.email.toLowerCase()
       const password = request.body.password
       const hasErrors = validateRegister({
         username: "default",
@@ -76,6 +77,7 @@ async function startServer() {
       return false
     })
 
+    // Verify login / session
     app.get("/test", {}, async (request, reply) => {
       try {
         // Verify User login
@@ -89,6 +91,15 @@ async function startServer() {
       } catch (e) {
         throw new Error(`Error verifying from cookies: ${e}`)
       }
+    })
+
+    // Logout
+    app.post("/api/logout", {}, async (request, reply) => {
+      await logUserOut(request, reply)
+
+      reply.send({
+        data: "User logged out",
+      })
     })
 
     app.listen(3000, (err, address) => {
