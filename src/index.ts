@@ -8,6 +8,7 @@ import { RegisterUser, UserAuth } from "./types/types"
 import { authUser } from "./accounts/auth"
 import { validateRegister } from "./utils/validateRegister"
 import { logUserIn } from "./accounts/logUserIn"
+import { getUserFromCookies } from "./accounts/getUserFromCookies"
 
 const app = fastify()
 
@@ -73,6 +74,21 @@ async function startServer() {
         console.error(e)
       }
       return false
+    })
+
+    app.get("/test", {}, async (request, reply) => {
+      try {
+        // Verify User login
+        const user = await getUserFromCookies(request)
+        // Return user email if found, otherwise return false
+
+        reply.type("application/json").code(200)
+        user?._id
+          ? reply.send({ data: user })
+          : reply.send({ data: "Could not find user." })
+      } catch (e) {
+        throw new Error(`Error verifying from cookies: ${e}`)
+      }
     })
 
     app.listen(3000, (err, address) => {
