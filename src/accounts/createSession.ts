@@ -32,7 +32,7 @@ export const createSession = async ({ userId, connection }: CreateSession) => {
 
     return sessionToken
   } catch (e) {
-    throw new Error("Error at creating session")
+    throw new Error(`Error at creating session. ${e}`)
   }
 
   // return session token

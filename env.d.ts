@@ -5,5 +5,6 @@ declare namespace NodeJS {
     MONGO_PASSWORD: string
     MONGO_DB_NAME: string
     COOKIE_SECRET: string
+    JWT_SECRET: string
   }
 }

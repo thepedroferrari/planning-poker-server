@@ -60,17 +60,14 @@ async function startServer() {
 
         if (isAuth && userId) {
           await logUserIn({ userId, request, reply })
+          reply.send({
+            data: `User Logged in`,
+          })
         }
+        reply.send({
+          data: `Auth Failed.`,
+        })
 
-        reply
-          .setCookie("userId", "id", {
-            path: "/",
-            domain: "localhost",
-            httpOnly: true,
-          })
-          .send({
-            data: isAuth,
-          })
         return isAuth
       } catch (e) {
         console.error(e)

@@ -33,6 +33,7 @@
   "homepage": "https://github.com/thepedroferrari/planning-poker-server#readme",
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/mongodb": "^3.6.18",
     "@types/node": "^15.12.2",
     "jest": "^27.0.4",
