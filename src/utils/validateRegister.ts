@@ -1,4 +1,4 @@
-import { RegisterUser } from "../types/types"
+import { RegisterUser, User } from "../types/types"
 import { returnErrors } from "./returnErrors"
 import { validateEmail } from "./validateEmail"
 import { validatePassword } from "./validatePassword"
@@ -11,7 +11,9 @@ import { validateUsername } from "./validateUsername"
  * @param options: RegisterUser {username, email, password}
  * @returns [{field, message}][]
  */
-export const validateRegister = (options: RegisterUser) => {
+export const validateRegister = async (options: RegisterUser) => {
+  const { user } = await import("../models/user.js")
+
   const errors = []
   if (!validateEmail(options.email)) {
     errors.push(returnErrors("email", "Invalid Email"))
@@ -25,6 +27,14 @@ export const validateRegister = (options: RegisterUser) => {
   const passwordErrors = validatePassword(options.password)
   if (passwordErrors !== null) {
     errors.push(...passwordErrors)
+  }
+
+  const userData = (await user.findOne({
+    "email.address": options.email,
+  })) as User
+
+  if (userData !== null) {
+    errors.push(returnErrors("email", "Email already registered"))
   }
 
   return errors

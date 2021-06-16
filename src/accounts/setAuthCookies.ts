@@ -5,6 +5,9 @@ type SetCookies = {
   refreshToken: string
   accessToken: string
 }
+
+const { ROOT_DOMAIN } = process.env
+
 export const setAuthCookies = ({
   reply,
   refreshToken,
@@ -17,13 +20,13 @@ export const setAuthCookies = ({
   reply
     .setCookie("refreshToken", refreshToken, {
       path: "/",
-      domain: "localhost",
+      domain: ROOT_DOMAIN,
       httpOnly: true,
       expires: refreshExpires,
     })
     .setCookie("accessToken", accessToken, {
       path: "/",
-      domain: "localhost",
+      domain: ROOT_DOMAIN,
       httpOnly: true,
     })
 }

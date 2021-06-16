@@ -17,8 +17,13 @@ const app = fastify()
 async function startServer() {
   try {
     app.register(cors, {
-      origin: "*",
-      methods: ["POST"],
+      origin: [
+        /\.pedro.dev/,
+        "https://pedro.dev",
+        /\.pedroferrari.com/,
+        "https://pedroferrari.com",
+      ],
+      credentials: true,
     })
     app.register(cookie, {
       secret: process.env.COOKIE_SECRET,
@@ -30,7 +35,7 @@ async function startServer() {
     })
     // Register User
     app.post<{ Body: RegisterUser }>(
-      "/api/register",
+      "/register",
       {},
       async (request, reply) => {
         try {
@@ -38,7 +43,7 @@ async function startServer() {
           const email = request.body?.email.toLowerCase()
           const password = request.body?.password
 
-          const errors = validateRegister({ username, email, password })
+          const errors = await validateRegister({ username, email, password })
 
           if (errors.length > 0) {
             reply.send({
@@ -80,7 +85,7 @@ async function startServer() {
     )
 
     // Auth User
-    app.post<{ Body: UserAuth }>("/api/auth", {}, async (request, reply) => {
+    app.post<{ Body: UserAuth }>("/auth", {}, async (request, reply) => {
       // Check for errors before doing unnecessary database requests
       const email = request.body.email.toLowerCase()
       const password = request.body.password
@@ -157,7 +162,7 @@ async function startServer() {
     })
 
     // Logout
-    app.post("/api/logout", {}, async (request, reply) => {
+    app.post("/logout", {}, async (request, reply) => {
       await logUserOut(request, reply)
 
       reply.send({
@@ -168,7 +173,7 @@ async function startServer() {
       })
     })
 
-    app.listen(3000, (err, address) => {
+    app.listen(8000, (err, address) => {
       if (err) throw err
       console.log(`🚀 Server is now listening on ${address} 🚀`)
     })
