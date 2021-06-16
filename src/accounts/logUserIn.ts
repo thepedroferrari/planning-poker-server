@@ -1,4 +1,3 @@
-import { FastifyReply } from "fastify"
 import { LogUserIn } from "../types/types"
 import { createSession } from "./createSession"
 import { setAuthCookies } from "./setAuthCookies"

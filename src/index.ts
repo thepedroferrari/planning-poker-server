@@ -100,16 +100,27 @@ async function startServer() {
         if (isAuth && userId) {
           await logUserIn({ userId, request, reply })
           reply.send({
-            data: `User Logged in`,
+            data: {
+              status: STATUS.SUCCESS,
+              userId,
+            },
           })
         }
         reply.send({
-          data: `Auth Failed.`,
+          data: {
+            status: STATUS.FAILURE,
+          },
         })
 
         return isAuth
       } catch (e) {
         console.error(e)
+        reply.send({
+          data: {
+            status: STATUS.FAILURE,
+            errors: e,
+          },
+        })
       }
       return false
     })
@@ -123,9 +134,24 @@ async function startServer() {
 
         reply.type("application/json").code(200)
         user?._id
-          ? reply.send({ data: user })
-          : reply.send({ data: "Could not find user." })
+          ? reply.send({
+              data: {
+                status: STATUS.SUCCESS,
+                user,
+              },
+            })
+          : reply.send({
+              data: {
+                status: STATUS.FAILURE,
+              },
+            })
       } catch (e) {
+        reply.send({
+          data: {
+            status: STATUS.FAILURE,
+            error: e,
+          },
+        })
         throw new Error(`Error verifying from cookies: ${e}`)
       }
     })
@@ -135,7 +161,10 @@ async function startServer() {
       await logUserOut(request, reply)
 
       reply.send({
-        data: "User logged out",
+        data: {
+          status: STATUS.SUCCESS,
+          message: "User Logged out",
+        },
       })
     })
 
