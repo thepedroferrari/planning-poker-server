@@ -89,7 +89,7 @@ async function startServer() {
       // Check for errors before doing unnecessary database requests
       const email = request.body.email.toLowerCase()
       const password = request.body.password
-      const hasErrors = validateRegister({
+      const hasErrors = await validateRegister({
         username: "default",
         email,
         password,
