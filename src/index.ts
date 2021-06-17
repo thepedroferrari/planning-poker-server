@@ -13,18 +13,15 @@ import { validateRegister } from "./utils/validateRegister"
 import { STATUS } from "./constants"
 import { mailInit } from "./mail/mailInit"
 import { sendEmail } from "./mail/sendEmail"
+import { createVerifyEmailLink } from "./accounts/verify"
 
 const app = fastify()
+
+const { COOKIE_SECRET, ROOT_DOMAIN } = process.env
 
 async function startServer() {
   try {
     const transporter = await mailInit()
-    await sendEmail(transporter, {
-      from: "me@me.com",
-      to: "you@you.com",
-      subject: "we",
-      html: "2+2=4",
-    })
     app.register(cors, {
       origin: [
         /\.pedro.dev/,
@@ -35,7 +32,7 @@ async function startServer() {
       credentials: true,
     })
     app.register(cookie, {
-      secret: process.env.COOKIE_SECRET,
+      secret: COOKIE_SECRET,
     })
     // Declare a route
     app.get("/", async (_, reply) => {
@@ -72,6 +69,17 @@ async function startServer() {
           })
 
           if (userId) {
+            const emailLink = await createVerifyEmailLink(email)
+
+            await sendEmail(transporter, {
+              from: "pedro@pedroferrari.com",
+              to: email,
+              subject: `Verify your account at ${ROOT_DOMAIN}`,
+              html: `<h1>Verify your account</h1>
+              <p>Hello there, here is the verification link for your account at https://${ROOT_DOMAIN}/</p>
+              <p><a href="${emailLink}" title="verify account">${emailLink}</a></p>
+              `,
+            })
             await logUserIn({ reply, request, userId })
             reply.send({
               data: {

@@ -1,4 +1,5 @@
 import { Transporter } from "nodemailer"
+import nodemailer from "nodemailer"
 import SMTPTransport from "nodemailer/lib/smtp-transport"
 
 type SendEmailKeys = "from" | "to" | "subject" | "html"
@@ -16,7 +17,7 @@ export const sendEmail = async (
       html,
     })
 
-    console.log(info)
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
   } catch (e) {
     throw new Error(`Error Sending email ${e}`)
   }
