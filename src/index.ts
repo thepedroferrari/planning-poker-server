@@ -11,11 +11,20 @@ import { connectDb } from "./db"
 import { RegisterUser, UserAuth } from "./types/types"
 import { validateRegister } from "./utils/validateRegister"
 import { STATUS } from "./constants"
+import { mailInit } from "./mail/mailInit"
+import { sendEmail } from "./mail/sendEmail"
 
 const app = fastify()
 
 async function startServer() {
   try {
+    const transporter = await mailInit()
+    await sendEmail(transporter, {
+      from: "me@me.com",
+      to: "you@you.com",
+      subject: "we",
+      html: "2+2=4",
+    })
     app.register(cors, {
       origin: [
         /\.pedro.dev/,
