@@ -1584,6 +1584,14 @@ fastify-warning@^0.2.0:
   resolved "https://registry.yarnpkg.com/fastify-warning/-/fastify-warning-0.2.0.tgz#e717776026a4493dc9a2befa44db6d17f618008f"
   integrity sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==
 
+fastify-websocket@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fastify-websocket/-/fastify-websocket-3.2.0.tgz#69421740671cec95f2001a9dccd393c923d482c0"
+  integrity sha512-O1I04Y6aV2rkO+RRMYQzIe2h7omA20p+Nk/HAdJmfHvNErY7OCani06+rDMmQCKYbZT6RWrsy13U+GrJPhSO6Q==
+  dependencies:
+    fastify-plugin "^3.0.0"
+    ws "^7.4.2"
+
 fastify@^3.17.0:
   version "3.17.0"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.17.0.tgz#1194c430ac3f27fc3e332e461f9521f5e4ff977a"
@@ -3870,6 +3878,11 @@ write-file-atomic@^3.0.0:
     is-typedarray "^1.0.0"
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
+
+ws@^7.4.2:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.0.tgz#0033bafea031fb9df041b2026fc72a571ca44691"
+  integrity sha512-6ezXvzOZupqKj4jUqbQ9tXuJNo+BR2gU8fFRk3XCP3e0G6WT414u5ELe6Y0vtp7kmSJ3F7YWObSNr1ESsgi4vw==
 
 ws@^7.4.5:
   version "7.4.6"
