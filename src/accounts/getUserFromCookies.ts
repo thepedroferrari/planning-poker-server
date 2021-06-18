@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import jwt from "jsonwebtoken"
 import mongodb from "mongodb"
-import { Session } from "src/types/types.js"
+import { Session } from "../types/types.js"
 import { refreshTokens } from "./refreshTokens.js"
 
 const { ObjectId } = mongodb

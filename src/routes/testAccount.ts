@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { getUserFromCookies } from "src/accounts/getUserFromCookies"
+import { getUserFromCookies } from "../accounts/getUserFromCookies"
 import { STATUS } from "../constants"
 
 export const testAccountRoute = async (

@@ -18,59 +18,60 @@ const app = fastify()
 async function startServer() {
   try {
     const transporter = await mailInit()
-    app.register(websocket)
-    app.register(cors, corsSettigs)
-    app.register(cookie, cookieSettings)
+    app
+      .register(websocket)
+      .register(cors, corsSettigs)
+      .register(cookie, cookieSettings)
 
-    // Websockets have to be before other routes in order to be able to intercept websocket connections to existing routes and close the connection on non-websocket routes.
-    app.get("/messages", { websocket: true }, (connection, request) => {
-      // Message must have:
-      // room ID
-      // user ID
-      // Vote
-      // ? Message
+      // Websockets have to be before other routes in order to be able to intercept websocket connections to existing routes and close the connection on non-websocket routes.
+      .get("/messages", { websocket: true }, (connection, request) => {
+        // Message must have:
+        // room ID
+        // user ID
+        // Vote
+        // ? Message
 
-      // update array of messages with new messages that arrive
-      // save on the database
-      // new users first request from the database to get history
-      // then they subscribe to new messages
-      connection.socket.on("message", (message: string) => {
-        console.log("REQ ", request)
-        console.log("REQ BODY: ", request.body)
-        console.log("MESSAGE: ", message)
-        // message === 'hi from client'
-        connection.socket.send(message)
+        // update array of messages with new messages that arrive
+        // save on the database
+        // new users first request from the database to get history
+        // then they subscribe to new messages
+        connection.socket.on("message", (message: string) => {
+          console.log("REQ ", request)
+          console.log("REQ BODY: ", request.body)
+          console.log("MESSAGE: ", message)
+          // message === 'hi from client'
+          connection.socket.send(message)
+        })
       })
-    })
 
-    app.get("/", async () => ({
-      readme: "https://github.com/thepedroferrari/planning-poker-server",
-    }))
+      .get("/", async () => ({
+        readme: "https://github.com/thepedroferrari/planning-poker-server",
+      }))
 
-    // Register User
-    app.post<{ Body: RegisterUser }>("/register", {}, (request, reply) =>
-      registerUserRoute(request, reply, transporter),
-    )
+      // Register User
+      .post<{ Body: RegisterUser }>("/register", {}, (request, reply) =>
+        registerUserRoute(request, reply, transporter),
+      )
 
-    // Auth User
-    app.post<{ Body: UserAuth }>("/auth", {}, async (request, reply) =>
-      authUserRoute(request, reply),
-    )
+      // Auth User
+      .post<{ Body: UserAuth }>("/auth", {}, async (request, reply) =>
+        authUserRoute(request, reply),
+      )
 
-    // Verify login / session
-    app.get("/test", {}, async (request, reply) =>
-      testAccountRoute(request, reply),
-    )
+      // Verify login / session
+      .get("/test", {}, async (request, reply) =>
+        testAccountRoute(request, reply),
+      )
 
-    // Logout
-    app.post("/logout", {}, async (request, reply) =>
-      logoutRoute(request, reply),
-    )
+      // Logout
+      .post("/logout", {}, async (request, reply) =>
+        logoutRoute(request, reply),
+      )
 
-    app.listen(8000, (err, address) => {
-      if (err) throw err
-      console.log(`🚀 Server is now listening on ${address} 🚀`)
-    })
+      .listen(8000, (err, address) => {
+        if (err) throw err
+        console.log(`🚀 Server is now listening on ${address} 🚀`)
+      })
   } catch (e) {
     console.error(e)
   }

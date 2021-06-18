@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { logUserOut } from "src/accounts/logUserOut"
+import { logUserOut } from "../accounts/logUserOut"
 import { STATUS } from "../constants"
 
 export const logoutRoute = async (
