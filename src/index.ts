@@ -29,6 +29,11 @@ async function startServer() {
       // user ID
       // Vote
       // ? Message
+
+      // update array of messages with new messages that arrive
+      // save on the database
+      // new users first request from the database to get history
+      // then they subscribe to new messages
       connection.socket.on("message", (message: string) => {
         console.log("REQ ", request)
         console.log("REQ BODY: ", request.body)
