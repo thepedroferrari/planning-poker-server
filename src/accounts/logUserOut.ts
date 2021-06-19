@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
+import { CookieSerializeOptions } from "fastify-cookie"
 import jwt from "jsonwebtoken"
 
 export const logUserOut = async (
@@ -26,7 +27,13 @@ export const logUserOut = async (
       })
     }
     // Remove cookies
-    reply.clearCookie("refreshToken").clearCookie("accessToken")
+    const cookieOptions: CookieSerializeOptions = {
+      domain: process.env.ROOT_DOMAIN,
+      path: "/",
+    }
+    reply
+      .clearCookie("refreshToken", cookieOptions)
+      .clearCookie("accessToken", cookieOptions)
   } catch (e) {
     throw new Error(`Error logging out: ${e}`)
   }

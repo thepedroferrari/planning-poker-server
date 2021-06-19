@@ -3,7 +3,7 @@ import crypto from "crypto"
 
 const { ROOT_DOMAIN, JWT_SECRET } = process.env
 
-export const createVerifyEmailToken = async (email: string) => {
+const createVerifyEmailToken = async (email: string) => {
   try {
     // create JWT Auth String
     const authString = `${JWT_SECRET}:${email}`

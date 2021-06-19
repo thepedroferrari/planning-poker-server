@@ -11,7 +11,10 @@ import { validateUsername } from "./validateUsername"
  * @param options: RegisterUser {username, email, password}
  * @returns [{field, message}][]
  */
-export const validateRegister = async (options: RegisterUser) => {
+export const validateRegister = async (
+  options: RegisterUser,
+  path?: string,
+) => {
   const { user } = await import("../models/user.js")
 
   const errors = []
@@ -33,7 +36,7 @@ export const validateRegister = async (options: RegisterUser) => {
     "email.address": options.email,
   })) as User
 
-  if (userData !== null) {
+  if (userData !== null && path !== "login") {
     errors.push(returnErrors("email", "Email already registered"))
   }
 

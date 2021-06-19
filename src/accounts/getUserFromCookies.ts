@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import jwt from "jsonwebtoken"
 import mongodb from "mongodb"
-import { Session } from "../types/types.js"
+import { Session, User } from "../types/types.js"
 import { refreshTokens } from "./refreshTokens.js"
 
 const { ObjectId } = mongodb
@@ -43,9 +43,9 @@ export const getUserFromCookies = async (
 
       if (currentSession?.valid) {
         // Look up current User
-        const currentUser = await user.findOne({
+        const currentUser = (await user.findOne({
           _id: new ObjectId(currentSession.userId),
-        })
+        })) as User
 
         // refresh tokens
         await refreshTokens({ sessionToken, reply, userId: currentUser._id })

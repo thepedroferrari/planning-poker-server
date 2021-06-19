@@ -8,7 +8,7 @@ export type User = {
   }
   password: string
   registrationDate: number
-  _id?: string
+  _id: string
 }
 
 export type UserAuth = {
@@ -19,6 +19,26 @@ export type UserAuth = {
 export type RegisterUser = UserAuth & {
   username: string
 }
+
+export type CreateRoom = {
+  name: string
+  owner: string // user email
+}
+
+export type Message = {
+  sender: string
+  message?: string
+  date: string
+  vote: string
+}
+
+export type Room = CreateRoom & {
+  _id: string
+  messages?: Message[]
+  uri: string
+}
+
+export type RoomParams = Pick<Room, "name">
 
 export type LogUserIn = {
   userId: string

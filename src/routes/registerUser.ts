@@ -59,13 +59,12 @@ export const registerUserRoute = async (
       })
     }
   } catch (e) {
-    console.error(e)
-
     reply.send({
       data: {
         status: STATUS.FAILURE,
       },
     })
+
+    throw new Error(`Error registering user: ${e}`)
   }
-  return false
 }

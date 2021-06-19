@@ -12,11 +12,14 @@ export const authUserRoute = async (
   // Check for errors before doing unnecessary database requests
   const email = request.body.email.toLowerCase()
   const password = request.body.password
-  const hasErrors = await validateRegister({
-    username: "default",
-    email,
-    password,
-  })
+  const hasErrors = await validateRegister(
+    {
+      username: "default",
+      email,
+      password,
+    },
+    "login",
+  )
   if (hasErrors.length > 0) return hasErrors
 
   try {
@@ -42,13 +45,13 @@ export const authUserRoute = async (
 
     return isAuth
   } catch (e) {
-    console.error(e)
     reply.send({
       data: {
         status: STATUS.FAILURE,
         errors: e,
       },
     })
+
+    throw new Error(`Error authenticating user: ${e}`)
   }
-  return false
 }

@@ -5,13 +5,15 @@ import cors from "fastify-cors"
 import websocket from "fastify-websocket"
 import { connectDb } from "./db"
 import { mailInit } from "./mail/mailInit"
-import { cookieSettings } from "./config/cookieSettings"
-import { corsSettigs } from "./config/corsSettings"
+import { cookieSettings } from "./settings/cookieSettings"
+import { corsSettigs } from "./settings/corsSettings"
 import { registerUserRoute } from "./routes/registerUser"
-import { RegisterUser, UserAuth } from "./types/types"
+import { CreateRoom, RegisterUser, RoomParams, UserAuth } from "./types/types"
 import { authUserRoute } from "./routes/authUser"
 import { testAccountRoute } from "./routes/testAccount"
 import { logoutRoute } from "./routes/logout"
+import { createRoomRoute } from "./routes/createRoomRoute"
+import { getRoomRoute } from "./routes/getRoomRoute"
 
 const app = fastify()
 
@@ -49,13 +51,25 @@ async function startServer() {
       }))
 
       // Register User
-      .post<{ Body: RegisterUser }>("/register", {}, (request, reply) =>
+      .post<{ Body: RegisterUser }>("/register", {}, async (request, reply) =>
         registerUserRoute(request, reply, transporter),
       )
 
       // Auth User
       .post<{ Body: UserAuth }>("/auth", {}, async (request, reply) =>
         authUserRoute(request, reply),
+      )
+
+      .post<{ Body: CreateRoom }>("/create", {}, async (request, reply) =>
+        createRoomRoute(request, reply),
+      )
+
+      // catch all room
+      .get("/room", {}, async (_, reply) => reply.send("Room must have a name"))
+
+      // get a room
+      .get<{ Params: RoomParams }>("/room/:name", {}, async (request, reply) =>
+        getRoomRoute(request, reply),
       )
 
       // Verify login / session
@@ -73,7 +87,7 @@ async function startServer() {
         console.log(`🚀 Server is now listening on ${address} 🚀`)
       })
   } catch (e) {
-    console.error(e)
+    throw new Error(`Error launching the server: ${e}`)
   }
 }
 
