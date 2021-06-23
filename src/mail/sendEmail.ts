@@ -5,10 +5,7 @@ import SMTPTransport from "nodemailer/lib/smtp-transport"
 type SendEmailKeys = "from" | "to" | "subject" | "html"
 type SendEmailData = Record<SendEmailKeys, string>
 
-export const sendEmail = async (
-  transport: Transporter<SMTPTransport.SentMessageInfo>,
-  { from, to, subject, html }: SendEmailData,
-) => {
+export const sendEmail = async (transport: Transporter<SMTPTransport.SentMessageInfo>, { from, to, subject, html }: SendEmailData) => {
   try {
     const info = await transport.sendMail({
       from,

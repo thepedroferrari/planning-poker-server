@@ -1,4 +1,5 @@
 {
+  "printWidth": 150,
   "arrowParens": "always",
   "bracketSpacing": true,
   "semi": false,

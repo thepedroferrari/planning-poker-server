@@ -26,17 +26,19 @@ export type CreateRoom = {
 }
 
 export type Message = {
-  sender: string
-  message?: string
-  date: string
-  vote: string
+  author: string
+  text: string
+  date: number
+  vote?: string
 }
 
 export type Room = CreateRoom & {
   _id: string
-  messages?: Message[]
+  messages: Message[]
   uri: string
 }
+
+export type SendMessage = Message & { roomName: string }
 
 export type RoomParams = Pick<Room, "name">
 

@@ -11,10 +11,7 @@ import { validateUsername } from "./validateUsername"
  * @param options: RegisterUser {username, email, password}
  * @returns [{field, message}][]
  */
-export const validateRegister = async (
-  options: RegisterUser,
-  path?: string,
-) => {
+export const validateRegister = async (options: RegisterUser, path?: string) => {
   const { user } = await import("../models/user.js")
 
   const errors = []

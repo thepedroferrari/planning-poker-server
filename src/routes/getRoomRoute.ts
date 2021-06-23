@@ -4,10 +4,7 @@ import { RoomParams, User } from "../types/types"
 import { STATUS } from "../constants"
 import { findRoomByName } from "../utils/findRoomByName"
 
-export const getRoomRoute = async (
-  request: FastifyRequest<{ Params: RoomParams }>,
-  reply: FastifyReply,
-) => {
+export const getRoomRoute = async (request: FastifyRequest<{ Params: RoomParams }>, reply: FastifyReply) => {
   try {
     const { name } = request.params
     const roomData = await findRoomByName(name)

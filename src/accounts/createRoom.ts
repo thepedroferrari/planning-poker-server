@@ -19,6 +19,6 @@ export const createRoom = async ({ name, owner }: CreateRoom) => {
     // Return room from Database
     return result
   } catch (e) {
-    throw new Error(`Error creating user: ${e}`)
+    throw new Error(`Error creating Room: ${e}`)
   }
 }

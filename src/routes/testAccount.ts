@@ -2,10 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { getUserFromCookies } from "../accounts/getUserFromCookies"
 import { STATUS } from "../constants"
 
-export const testAccountRoute = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
+export const testAccountRoute = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     // Verify User login
     const user = await getUserFromCookies(request, reply)

@@ -8,11 +8,7 @@ type SetCookies = {
 
 const { ROOT_DOMAIN } = process.env
 
-export const setAuthCookies = ({
-  reply,
-  refreshToken,
-  accessToken,
-}: SetCookies) => {
+export const setAuthCookies = ({ reply, refreshToken, accessToken }: SetCookies) => {
   const now = new Date()
   const refreshExpires = new Date(now.setDate(now.getDate() + 30))
 

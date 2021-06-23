@@ -6,10 +6,7 @@ import { findRoomByName } from "../utils/findRoomByName"
 import { findUserByEmail } from "../utils/findUserByEmail"
 import { returnErrors } from "../utils/returnErrors"
 
-export const createRoomRoute = async (
-  request: FastifyRequest<{ Body: CreateRoom }>,
-  reply: FastifyReply,
-) => {
+export const createRoomRoute = async (request: FastifyRequest<{ Body: CreateRoom }>, reply: FastifyReply) => {
   const { owner, name } = request.body
   try {
     // Double-check if user is registered
@@ -40,10 +37,7 @@ export const createRoomRoute = async (
     reply.send({
       data: {
         status: STATUS.FAILURE,
-        error: returnErrors(
-          "name",
-          "A room with the same name already exists.",
-        ),
+        error: returnErrors("name", "A room with the same name already exists."),
       },
     })
   } catch (e) {

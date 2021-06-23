@@ -5,10 +5,7 @@ import { STATUS } from "../constants"
 import { UserAuth } from "../types/types"
 import { validateRegister } from "../utils/validateRegister"
 
-export const authUserRoute = async (
-  request: FastifyRequest<{ Body: UserAuth }>,
-  reply: FastifyReply,
-) => {
+export const authUserRoute = async (request: FastifyRequest<{ Body: UserAuth }>, reply: FastifyReply) => {
   // Check for errors before doing unnecessary database requests
   const email = request.body.email.toLowerCase()
   const password = request.body.password
